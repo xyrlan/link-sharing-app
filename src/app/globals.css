@@ -1,0 +1,8 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+input::placeholder {
+    padding-left: 30px;
+    background-image: url('/images/email.svg');
+}
