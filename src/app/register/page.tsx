@@ -53,8 +53,6 @@ export default function Register() {
                 toast.warn('Passwords do not match');
                 return
             }
-            const userInfo = await response.json();
-            console.log(userInfo);
 
             toast.success('Account created successfully', {
                 icon: '🚀',
@@ -71,12 +69,6 @@ export default function Register() {
         }
 
     }
-    // useEffect(() => {
-    //     if (!passwordsMatch) {
-    //         toast.warn('Passwords do not match!');
-    //     }
-    //     setPasswordsMatch(true)
-    // }, [passwordsMatch]);
 
     async function loginWithGoogle(e: any) {
         e.preventDefault();
@@ -85,7 +77,6 @@ export default function Register() {
             callbackUrl: '/dashboard'
         })
     };
-
 
     return (
         <>
@@ -190,7 +181,7 @@ export default function Register() {
                                     className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                                 >
                                     {loading && (
-                                        <p>asdasdas</p>
+                                        <p>Processing...</p>
                                     )}
                                     Create new account
                                 </button>

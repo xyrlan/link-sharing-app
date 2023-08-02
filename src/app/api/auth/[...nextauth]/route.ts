@@ -6,10 +6,7 @@ import { PrismaClient } from "@prisma/client";
 import { Adapter } from "next-auth/adapters";
 import bcrypt from "bcrypt"
 import { toast } from 'react-toastify';
-
-
-
-const prisma = new PrismaClient();
+import { prisma } from "@/lib/prisma";
 
 export const authOptions: AuthOptions = {
   adapter: PrismaAdapter(prisma) as Adapter,
@@ -17,9 +14,8 @@ export const authOptions: AuthOptions = {
     CredentialsProvider({
       name: "credentials",
       credentials: {
-        username: { label: "Username", type: "text", placeholder: "jsmith" },
+        email: { label: "Email", type: "email" },
         password: { label: "Password", type: "password" },
-        email: { label: "Email", type: "email" }
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) {
@@ -31,16 +27,19 @@ export const authOptions: AuthOptions = {
             email: credentials.email
           }
         });
+        console.log(user)
 
-        if (!user) { 
+        if (!user) {
           return null;
         }
 
         const passwordMatch = await bcrypt.compare(credentials.password, user.hashedPassword ?? '');
+        console.log(passwordMatch)
 
         if (!passwordMatch) {
           return null;
         }
+
         return user;
       }
     }),
@@ -50,11 +49,22 @@ export const authOptions: AuthOptions = {
     }),
   ],
   session: {
-    strategy: 'jwt'
+    strategy: "jwt"
+  },
+  callbacks: {
+    async session({ session, user }) {
+      const account = await prisma.user.findUnique({
+        where: {
+          email: session.user.email
+        }
+      })
+      session.user.links = account?.links
+      return session; // O tipo de retorno coincidirá com o retornado em `useSession()`
+    },
   },
   secret: process.env.NEXTAUTH_SECRET,
   debug: process.env.NODE_ENV === "development",
-  };
+};
 
 const handler = NextAuth(authOptions);
 

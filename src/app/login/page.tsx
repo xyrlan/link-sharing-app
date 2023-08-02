@@ -10,8 +10,8 @@ import { toast } from "react-toastify"
 export default function Login() {
 
     const [loading, setLoading] = useState(false);
-    const { data: session, status } = useSession();
 
+    const { data: session, status } = useSession();
 
 
     const router = useRouter()
@@ -20,7 +20,8 @@ export default function Login() {
         password: '',
     })
 
-    const loginUser = async (e: React.FormEvent<HTMLFormElement>) => {
+
+    const loginUser = async (e: any) => {
         e.preventDefault();
         setLoading(true);
         const response = await signIn("credentials", {
@@ -31,8 +32,8 @@ export default function Login() {
         if (response?.url === null) {
             console.log(response?.error);
             toast.error("Credentials do not match!");
-        } else {
-            toast.success(`Authenticated user: ${session?.user?.email}`, {
+        } else  {
+            toast.success(`Authenticated user`, {
                 icon: '🚀',
             });
             router.push("/dashboard");
@@ -90,8 +91,8 @@ export default function Login() {
                                         placeholder="e.g. alex@email.com"
                                         style={{
                                             backgroundImage: "url('/images/icon-email.svg')",
-                                            
-                                          }}
+
+                                        }}
                                         className="block w-full bg-no-repeat bg-[center_left_1rem] px-10 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                     />
                                 </div>
@@ -115,8 +116,8 @@ export default function Login() {
                                         placeholder="Enter your password"
                                         style={{
                                             backgroundImage: "url('/images/icon-password.svg')",
-                                            
-                                          }}
+
+                                        }}
                                         className="block w-full bg-no-repeat bg-[center_left_1rem] px-10 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                     />
                                 </div>
