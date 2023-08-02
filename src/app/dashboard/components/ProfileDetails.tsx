@@ -83,6 +83,7 @@ export default function ProfileDetails({
     };
 
     const handleSubmit = async () => {
+        setLoading(true)
         try {
 
             await axios.post('/api/dashboard', {
@@ -100,7 +101,10 @@ export default function ProfileDetails({
             console.error('Error updating profile:', error);
             // Handle error message or other error handling logic
         }
+        setLoading(false)
     };
+
+
 
     return (
         <div className="py-6 px-6 lg:px-8 shadow sm:w-2/3 max-h-full max-sm:w-full relative">
@@ -114,13 +118,13 @@ export default function ProfileDetails({
                     <p className="text-slate-500 text-sm">Profile picture</p>
                     <div className=" items-center gap-4 ml-[30%]">
                         <label className="relative md:flex items-center group gap-4" htmlFor="profile_image" >
-                            <div className="opacity-0 z-20 flex max-md:flex-col max-w-full max-h-full absolute cursor-pointer overflow-visible">
+                            {/* <div className="opacity-0 z-20 flex max-md:flex-col max-w-full max-h-full absolute cursor-pointer overflow-visible">
                                 <UploadDropzone
                                     endpoint="imageUploader"
                                     onClientUploadComplete={handleUploadComplete}
                                     onUploadError={handleUploadError}
                                 />
-                            </div>
+                            </div> */}
                             {/* Renderiza a imagem ou a área de upload */}
                             {image.length !== 0 ? (
                                 <div className='relative group cursor-pointer w-40 h-40 '>
@@ -154,14 +158,20 @@ export default function ProfileDetails({
                             </p>
                         </label>
                         <div className="text-center mt-3">
-                            <button className="h-10 w-36 bg-indigo-600 rounded-lg text-sm text-white font-semibold ">
-                                {loading ? (
+                            <button
+
+                                className="h-10 w-36 bg-indigo-600 rounded-lg text-sm text-white font-semibold ">
+                                {/* {loading ? (
                                     <p>Processing...</p>
                                 ) : (
                                     <p>Upload File</p>
-                                )}
+                                )} */}
 
-
+                                <UploadButton
+                                    endpoint="imageUploader"
+                                    onClientUploadComplete={handleUploadComplete}
+                                    onUploadError={handleUploadError}
+                                />
                             </button>
                         </div>
                     </div>
