@@ -1,12 +1,9 @@
 'use client'
 
-import exempleCard from './components/PreviewCard';
 import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 
 import { useSession } from "next-auth/react"
-import { signOut } from "next-auth/react";
-import Image from 'next/image';
 import { useForm, useFieldArray } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -18,21 +15,17 @@ import LinksMenu from './components/LinksMenu';
 import ProfileDetails from './components/ProfileDetails';
 
 
-const createUserLinksSchema = z.object({
-  links: z.array(z.object({
-    platform: z.string().nonempty('obrigatorio'),
-    url: z.string().nonempty('obrigatorio')
-  }))
-})
 
-type CreateUserLinksData = z.infer<typeof createUserLinksSchema>
 
-interface NavbarProps {
+interface DashboardProps {
   isEditing: boolean;
   setIsEditing: (value: boolean) => void;
+  session: any;
+  status: any;
+  update: any;
 }
 
-export default function Dashboard({ isEditing, setIsEditing }: NavbarProps) {
+export default function Dashboard({ isEditing, setIsEditing, session, status, update }: DashboardProps) {
 
   const router = useRouter();
   const [selectedPlatforms, setSelectedPlatforms] = useState<string[]>([]);
@@ -48,12 +41,40 @@ export default function Dashboard({ isEditing, setIsEditing }: NavbarProps) {
     fileKey: string
   }[]>([])
 
-
-
   const initialSelectedPlatformsRef = useRef<string[]>([]);
 
-  const { data: session, status } = useSession();
 
+  useEffect(() => {
+    if (status === "unauthenticated") {
+      router.replace("/login"); // Redirect to login page if not authenticated
+    }
+  }, [status]);
+
+console.log(sessionLinks)
+
+  const createUserLinksSchema = z.object({
+    links: z.array(
+      z.object({
+        platform: z.string().nonempty('Obrigatory'),
+        url: z.string().nonempty('Obrigatory').refine((value) => {
+          if (value) {
+            return (
+              value.includes('github.com') ||
+              value.includes('youtube.com') ||
+              value.includes('facebook.com') ||
+              value.includes('linkedin.com') ||
+              value.includes('twitch.tv') ||
+              value.includes('twitter.com')
+            );
+          }
+          return true;
+        }, 'Invalid URL')
+      })
+    )
+  });
+
+
+  type CreateUserLinksData = z.infer<typeof createUserLinksSchema>
 
   const {
     register,
@@ -90,7 +111,7 @@ export default function Dashboard({ isEditing, setIsEditing }: NavbarProps) {
         return acc;
       }, {});
 
-      const response = await axios.post('/api/dashboard', {
+      await axios.post('/api/dashboard', {
         data: {
           id: session?.user?.email,
           links: formattedData,
@@ -98,7 +119,6 @@ export default function Dashboard({ isEditing, setIsEditing }: NavbarProps) {
       });
 
       toast.success('Links successfully saved!');
-      setIsEditing(true);
     } catch (error) {
       console.error('Erro ao salvar os links:', error);
     } finally {
@@ -110,32 +130,39 @@ export default function Dashboard({ isEditing, setIsEditing }: NavbarProps) {
     {
       platform: 'GitHub',
       iconUrl: 'icon-github.svg',
-      color: 'bg-black'
+      color: 'bg-black',
+      placeholder: 'e.g. https://www.github.com/johnappleseed'
     },
     {
       platform: 'Youtube',
       iconUrl: 'icon-youtube.svg',
-      color: 'bg-red-600  '
+      color: 'bg-red-600',
+      placeholder: 'e.g. https://www.youtube.com/benwright'
     },
     {
       platform: 'Linkedin',
       iconUrl: 'icon-linkedin.svg',
-      color: 'bg-[#0077b5]'
+      color: 'bg-[#0077b5]',
+      placeholder: 'e.g. https://www.linkedin.com/peterparker'
     },
     {
       platform: 'Twitter',
       iconUrl: 'icon-twitter.svg',
-      color: 'bg-[#1DA1F2]'
+      color: 'bg-[#1DA1F2]',
+      placeholder: 'e.g. https://www.twitter.com/peterparker'
     },
     {
       platform: 'Twitch',
       iconUrl: 'icon-twitch.svg',
-      color: 'bg-[#6441a5]'
+      color: 'bg-[#6441a5]',
+      placeholder: 'e.g. https://www.twitch.tv/jamilejson'
+
     },
     {
       platform: 'Facebook',
       iconUrl: 'icon-facebook.svg',
-      color: 'bg-[#4267B2]'
+      color: 'bg-[#4267B2]',
+      placeholder: 'e.g. https://www.facebook.com/loveerica'
     },
 
   ]
@@ -157,7 +184,7 @@ export default function Dashboard({ isEditing, setIsEditing }: NavbarProps) {
       }
 
       const initialSelectedPlatforms = extractedLinks.map((link) => link.platform);
-      initialSelectedPlatformsRef.current = initialSelectedPlatforms; // Store initialSelectedPlatforms in the ref
+      initialSelectedPlatformsRef.current = initialSelectedPlatforms; 
 
       // Set selectedPlatforms only if it hasn't been changed yet
       if (selectedPlatforms.length === 0) {
@@ -184,11 +211,11 @@ export default function Dashboard({ isEditing, setIsEditing }: NavbarProps) {
           <div className='w-full h-full flex justify-center items-center'><p>Processing...</p></div>
         ) : (
           <>
-            <PreviewCard selectedLinks={selectedLinks} session={session} firstName={firstName} lastName={lastName} previewImage={previewImage} image={image}  />
+            <PreviewCard selectedLinks={selectedLinks} session={session} firstName={firstName} lastName={lastName} previewImage={previewImage} image={image} />
             {isEditing ? (
-              <ProfileDetails session={session} firstName={firstName} lastName={lastName} setFirstName={setFirstName} setLastName={setLastName} setPreviewImage={setPreviewImage} previewImage={previewImage} image={image} setImage={setImage} />
+              <ProfileDetails session={session} update={update} firstName={firstName} lastName={lastName} setFirstName={setFirstName} setLastName={setLastName} setPreviewImage={setPreviewImage} previewImage={previewImage} image={image} setImage={setImage} />
             ) : (
-              <LinksMenu addNewLink={addNewLink} fields={fields} selectedPlatforms={selectedPlatforms} handlePlatformChange={handlePlatformChange} handleSubmit={handleSubmit} onSubmit={onSubmit} Links={Links} register={register} removeLink={removeLink} />
+              <LinksMenu addNewLink={addNewLink} errors={errors} fields={fields} selectedPlatforms={selectedPlatforms} handlePlatformChange={handlePlatformChange} handleSubmit={handleSubmit} loading={isLoading} onSubmit={onSubmit} Links={Links} register={register} removeLink={removeLink} />
             )}
           </>
         )}

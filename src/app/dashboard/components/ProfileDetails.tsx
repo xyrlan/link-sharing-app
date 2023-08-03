@@ -16,8 +16,9 @@ interface ProfileDetailsProps {
     setLastName: (name: string) => void;
     setPreviewImage: (previewImage: string | null) => void;
     previewImage: string | null;
-    image: any
-    setImage: any
+    image: any;
+    setImage: any;
+    update: any;
 
 
 }
@@ -32,6 +33,7 @@ export default function ProfileDetails({
     previewImage,
     image,
     setImage,
+    update,
 
 }: ProfileDetailsProps) {
 
@@ -88,7 +90,7 @@ export default function ProfileDetails({
 
             await axios.post('/api/dashboard', {
                 data: {
-                    name: firstName + ' ' + lastName,
+                    name: firstName === '' ? session?.user?.name : firstName + ' ' + lastName,
                     id: session?.user?.email,
                     image: image[0]?.fileUrl,
                 },
@@ -101,7 +103,9 @@ export default function ProfileDetails({
             console.error('Error updating profile:', error);
             // Handle error message or other error handling logic
         }
-        setLoading(false)
+        setLoading(false);
+        update();
+        
     };
 
 
@@ -161,11 +165,7 @@ export default function ProfileDetails({
                             <button
 
                                 className="h-10 w-36 bg-indigo-600 rounded-lg text-sm text-white font-semibold ">
-                                {/* {loading ? (
-                                    <p>Processing...</p>
-                                ) : (
-                                    <p>Upload File</p>
-                                )} */}
+
 
                                 <UploadButton
                                     endpoint="imageUploader"
@@ -206,7 +206,14 @@ export default function ProfileDetails({
                     onClick={handleSubmit}
                     className="flex w-full sm:w-fit justify-center rounded-md bg-indigo-600 disabled:opacity-50 px-5 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm enabled:hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                 >
-                    Save
+                    {loading ? (
+                        <div className="flex items-center gap-2">
+                            <div className="h-6 w-6 rounded-full border-4 border-t-transparent border-l-transparent animate-spin border-white" />
+                            <p>Processing...</p>
+                        </div>
+                    ) : (
+                        <p>Save</p>
+                    )}
                 </button>
             </div>
         </div >

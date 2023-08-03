@@ -5,18 +5,6 @@ import { signIn, signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 export default function Home() {
 
-  const [menuIsOpen, setMenuIsOpen] = React.useState(false);
-
-  const { status, data: session } = useSession();
-
-  const handleLoginClick = () => signIn();
-
-  const handleLogoutClick = () => {
-    setMenuIsOpen(false);
-    signOut();
-  };
-
-  const handleMenuClick = () => setMenuIsOpen(!menuIsOpen);
 
   return (
     <>

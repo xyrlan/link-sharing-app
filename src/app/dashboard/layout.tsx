@@ -2,12 +2,14 @@
 import React from 'react'
 import Navbar from '../components/Navbar'
 import Dashboard from './page'
+import { useSession } from 'next-auth/react'
 
 
 import { useState, useEffect } from 'react'
 
 export default function DashLayout() {
 
+    const { data: session, status, update } = useSession();
 
     const initialIsEditing = () => {
         if (typeof window !== 'undefined') {
@@ -24,13 +26,12 @@ export default function DashLayout() {
         localStorage.setItem('isEditing', String(isEditing));
     }, []);
 
-    console.log(isEditing)
 
     return (
 
         <div>
-            <Navbar isEditing={isEditing} setIsEditing={setIsEditing} />
-            <Dashboard isEditing={isEditing} setIsEditing={setIsEditing} />
+            <Navbar isEditing={isEditing} setIsEditing={setIsEditing} session={session} />
+            <Dashboard isEditing={isEditing} setIsEditing={setIsEditing} session={session} status={status} update={update} />
         </div>
     )
 }

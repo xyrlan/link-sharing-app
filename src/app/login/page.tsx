@@ -32,7 +32,7 @@ export default function Login() {
         if (response?.url === null) {
             console.log(response?.error);
             toast.error("Credentials do not match!");
-        } else  {
+        } else {
             toast.success(`Authenticated user`, {
                 icon: '🚀',
             });
@@ -129,10 +129,13 @@ export default function Login() {
                                     className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                                 >
                                     {loading ? (
-                                        <p>loading</p>
-                                    ) :
-                                        <p>
-                                            Login</p>}
+                                        <div className="flex items-center gap-2">
+                                            <div className="h-6 w-6 rounded-full border-4 border-t-transparent border-l-transparent animate-spin border-white" />
+                                            <p>Processing...</p>
+                                        </div>
+                                    ) : (
+                                        <p>Login</p>
+                                    )}
                                 </button>
                             </div>
                         </form>

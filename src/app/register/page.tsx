@@ -163,7 +163,7 @@ export default function Register() {
                                         type="password"
                                         autoComplete="current-password"
                                         value={data.confirmPassword}
-                                        onChange={(e) => {setData({...data, confirmPassword: e.target.value}) }} 
+                                        onChange={(e) => { setData({ ...data, confirmPassword: e.target.value }) }}
                                         required
                                         placeholder="At least 8 characters"
                                         style={{
@@ -180,10 +180,14 @@ export default function Register() {
                                     type="submit"
                                     className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                                 >
-                                    {loading && (
-                                        <p>Processing...</p>
+                                    {loading ? (
+                                        <div className="flex items-center gap-2">
+                                            <div className="h-6 w-6 rounded-full border-4 border-t-transparent border-l-transparent animate-spin border-white" />
+                                            <p>Processing...</p>
+                                        </div>
+                                    ) : (
+                                        <p>Create new account</p>
                                     )}
-                                    Create new account
                                 </button>
                             </div>
                         </form>
