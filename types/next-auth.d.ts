@@ -10,7 +10,6 @@ interface UserLinks {
 declare module 'next-auth' {
   interface Session {
     user?: {
-      id: string;
       links?: UserLinks;
     } & DefaultSession['user'] ;
   }
