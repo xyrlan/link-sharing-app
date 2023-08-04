@@ -13,6 +13,13 @@ export default function Login() {
 
     const { data: session, status } = useSession();
 
+    useEffect(() => {
+        if (status === "authenticated") {
+          router.replace("/dashboard");
+        }
+      }, [status]);
+    
+
 
     const router = useRouter()
     const [data, setData] = useState({

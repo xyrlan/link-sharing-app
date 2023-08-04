@@ -4,10 +4,6 @@ import Image from 'next/image'
 import { Links } from '@/lib/Links'
 import { useEffect, useState } from 'react'
 
-interface profilecardprops {
-    user: User
-}
-
 type Link = {
     platform: string;
     url: string;
@@ -20,7 +16,7 @@ type User = {
     emailVerified: string | null;
     hashedPassword: string;
     image: string;
-    links: Record<string, { url: string }>;
+    links: any;
 };
 
 type Props = {
@@ -29,23 +25,71 @@ type Props = {
 
 const ProfileCard: React.FC<Props> = ({ user }) => {
 
-    const [selectedLinks, setSelectedLinks] = useState<Link[]>([]);
 
+
+     const Links = [
+        {
+          platform: 'GitHub',
+          iconUrl: 'icon-github.svg',
+          color: 'bg-black',
+          placeholder: 'e.g. https://www.github.com/johnappleseed'
+        },
+        {
+          platform: 'Youtube',
+          iconUrl: 'icon-youtube.svg',
+          color: 'bg-red-600',
+          placeholder: 'e.g. https://www.youtube.com/benwright'
+        },
+        {
+          platform: 'Linkedin',
+          iconUrl: 'icon-linkedin.svg',
+          color: 'bg-[#0077b5]',
+          placeholder: 'e.g. https://www.linkedin.com/peterparker'
+        },
+        {
+          platform: 'Twitter',
+          iconUrl: 'icon-twitter.svg',
+          color: 'bg-[#1DA1F2]',
+          placeholder: 'e.g. https://www.twitter.com/peterparker'
+        },
+        {
+          platform: 'Twitch',
+          iconUrl: 'icon-twitch.svg',
+          color: 'bg-[#6441a5]',
+          placeholder: 'e.g. https://www.twitch.tv/jamilejson'
+    
+        },
+        {
+          platform: 'Facebook',
+          iconUrl: 'icon-facebook.svg',
+          color: 'bg-[#4267B2]',
+          placeholder: 'e.g. https://www.facebook.com/loveerica'
+        },
+    
+      ]
+
+    const [selectedLinks, setSelectedLinks] = useState<Link[]>([]);
+    console.log(selectedLinks)
+    console.log(user.links)
     useEffect(() => {
         if (user.links) {
             const userLinks = user.links;
 
-            const filteredLinks = Object.keys(userLinks)
-                .filter((platform) => Links.some((link) => link.platform === platform))
-                .map((platform) => ({
-                    platform,
-                    url: userLinks[platform].url,
-                }));
+            const extractedLinks = userLinks.map((link: any) => ({
+                platform: link.platform,
+                url: link.url.startsWith("https://") ? link.url : `https://${link.url}`,
+              }));
 
-            setSelectedLinks(filteredLinks);
+
+            setSelectedLinks(extractedLinks);
         }
     }, [user.links]);
 
+
+    const LinksMap: Record<string, any> = {};
+    Links.forEach((link) => {
+      LinksMap[link.platform] = link;
+    });
 
     return (
         <div className="h-full w-full flex justify-center">
@@ -71,9 +115,7 @@ const ProfileCard: React.FC<Props> = ({ user }) => {
                             href={link.url}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className={`flex justify-between items-center text-white w-[80%] mt-5 h-[44px] p-2 mx-auto rounded-lg ${Links.find(
-                                (item) => item.platform === link.platform
-                            )?.color}`}
+                            className={`flex justify-between items-center text-white w-[80%] mt-5 h-[44px] p-2 mx-auto rounded-lg ${LinksMap[link.platform]?.color}`}
                         >
                             <div className='flex justify-between gap-2 text-sm font-light'>
                                 <img className='fill-white' src={`/images/${Links.find(

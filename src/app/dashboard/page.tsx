@@ -17,6 +17,8 @@ import ProfileDetails from './components/ProfileDetails';
 
 
 
+
+
 interface DashboardProps {
   isEditing: boolean;
   setIsEditing: (value: boolean) => void;
@@ -26,6 +28,47 @@ interface DashboardProps {
 }
 
 export default function Dashboard({ isEditing, setIsEditing, session, status, update }: DashboardProps) {
+
+  const Links = [
+    {
+      platform: 'GitHub',
+      iconUrl: 'icon-github.svg',
+      color: 'bg-black',
+      placeholder: 'e.g. https://www.github.com/johnappleseed'
+    },
+    {
+      platform: 'Youtube',
+      iconUrl: 'icon-youtube.svg',
+      color: 'bg-red-600',
+      placeholder: 'e.g. https://www.youtube.com/benwright'
+    },
+    {
+      platform: 'Linkedin',
+      iconUrl: 'icon-linkedin.svg',
+      color: 'bg-[#0077b5]',
+      placeholder: 'e.g. https://www.linkedin.com/peterparker'
+    },
+    {
+      platform: 'Twitter',
+      iconUrl: 'icon-twitter.svg',
+      color: 'bg-[#1DA1F2]',
+      placeholder: 'e.g. https://www.twitter.com/peterparker'
+    },
+    {
+      platform: 'Twitch',
+      iconUrl: 'icon-twitch.svg',
+      color: 'bg-[#6441a5]',
+      placeholder: 'e.g. https://www.twitch.tv/jamilejson'
+
+    },
+    {
+      platform: 'Facebook',
+      iconUrl: 'icon-facebook.svg',
+      color: 'bg-[#4267B2]',
+      placeholder: 'e.g. https://www.facebook.com/loveerica'
+    },
+
+  ]
 
   const router = useRouter();
   const [selectedPlatforms, setSelectedPlatforms] = useState<string[]>([]);
@@ -50,7 +93,7 @@ export default function Dashboard({ isEditing, setIsEditing, session, status, up
     }
   }, [status]);
 
-console.log(sessionLinks)
+
 
   const createUserLinksSchema = z.object({
     links: z.array(
@@ -106,10 +149,15 @@ console.log(sessionLinks)
     try {
       setIsLoading(true);
 
-      const formattedData = data.links.reduce((acc: any, link: any) => {
-        acc[link.platform] = { url: link.url };
-        return acc;
-      }, {});
+      // const formattedData = data.links.reduce((acc: any, link: any) => {
+      //   acc[link.platform] = { url: link.url };
+      //   return acc;
+      // }, {});
+
+      const formattedData = data.links.map((link: any) => ({
+        platform: link.platform,
+        url: link.url,
+      }));
 
       await axios.post('/api/dashboard', {
         data: {
@@ -126,65 +174,26 @@ console.log(sessionLinks)
     }
   };
 
-  const Links = [
-    {
-      platform: 'GitHub',
-      iconUrl: 'icon-github.svg',
-      color: 'bg-black',
-      placeholder: 'e.g. https://www.github.com/johnappleseed'
-    },
-    {
-      platform: 'Youtube',
-      iconUrl: 'icon-youtube.svg',
-      color: 'bg-red-600',
-      placeholder: 'e.g. https://www.youtube.com/benwright'
-    },
-    {
-      platform: 'Linkedin',
-      iconUrl: 'icon-linkedin.svg',
-      color: 'bg-[#0077b5]',
-      placeholder: 'e.g. https://www.linkedin.com/peterparker'
-    },
-    {
-      platform: 'Twitter',
-      iconUrl: 'icon-twitter.svg',
-      color: 'bg-[#1DA1F2]',
-      placeholder: 'e.g. https://www.twitter.com/peterparker'
-    },
-    {
-      platform: 'Twitch',
-      iconUrl: 'icon-twitch.svg',
-      color: 'bg-[#6441a5]',
-      placeholder: 'e.g. https://www.twitch.tv/jamilejson'
 
-    },
-    {
-      platform: 'Facebook',
-      iconUrl: 'icon-facebook.svg',
-      color: 'bg-[#4267B2]',
-      placeholder: 'e.g. https://www.facebook.com/loveerica'
-    },
-
-  ]
 
   useEffect(() => {
     if (session?.user?.links) {
       const linksFromSession = session.user.links;
-      const extractedLinks = Object.keys(linksFromSession).map((platform) => ({
-        platform,
-        url: linksFromSession[platform].url,
+      const extractedLinks = linksFromSession.map((link: any) => ({
+        platform: link.platform,
+        url: link.url,
       }));
 
       setSessionLinks(extractedLinks);
 
       if (fields.length === 0) {
-        extractedLinks.forEach((link) => {
+        extractedLinks.forEach((link: any) => {
           append({ platform: link.platform, url: link.url });
         });
       }
 
-      const initialSelectedPlatforms = extractedLinks.map((link) => link.platform);
-      initialSelectedPlatformsRef.current = initialSelectedPlatforms; 
+      const initialSelectedPlatforms = extractedLinks.map((link: any) => link.platform);
+      initialSelectedPlatformsRef.current = initialSelectedPlatforms;
 
       // Set selectedPlatforms only if it hasn't been changed yet
       if (selectedPlatforms.length === 0) {
@@ -202,7 +211,6 @@ console.log(sessionLinks)
   const selectedLinks = Links.filter((link) =>
     selectedPlatforms.includes(link.platform)
   );
-
 
   return (
     <>

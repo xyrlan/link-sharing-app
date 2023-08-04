@@ -3,9 +3,6 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
 
-console.log(process.env.AWS_CLIENT_REGION)
-console.log(process.env.ACCESS_KEY_ID)
-console.log(process.env.SECRET_ACESS_KEY)
 
 export async function POST(request: any) {
   const body = await request.json();

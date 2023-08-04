@@ -2,11 +2,14 @@ import NextAuth, { AuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { PrismaAdapter } from "@auth/prisma-adapter";
-import { PrismaClient } from "@prisma/client";
 import { Adapter } from "next-auth/adapters";
 import bcrypt from "bcrypt"
-import { toast } from 'react-toastify';
 import { prisma } from "@/lib/prisma";
+
+
+
+
+
 
 export const authOptions: AuthOptions = {
   adapter: PrismaAdapter(prisma) as Adapter,
@@ -52,22 +55,21 @@ export const authOptions: AuthOptions = {
     strategy: "jwt"
   },
   callbacks: {
-    async session({ session, user, trigger, newSession }) {
+    async session({ session }) {
       const account = await prisma.user.findUnique({
         where: {
           email: session.user.email
         }
 
-      })
-      session.user.id = account?.id
-      session.user.image = account?.image
-      session.user.name = account?.name
-      session.user.links = account?.links
+      });
+      session.user.id = account?.id;
+      session.user.image = account?.image;
+      session.user.name = account?.name;
+      session.user.links = account?.links;
       return session; 
     },
   },
-  secret: process.env.NEXTAUTH_SECRET,
-  debug: process.env.NODE_ENV === "development",
+  secret: `${process.env.NEXTAUTH_SECRET}`,
 };
 
 const handler = NextAuth(authOptions);

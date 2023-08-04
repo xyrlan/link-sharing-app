@@ -11,6 +11,7 @@ export default function DashLayout() {
 
     const { data: session, status, update } = useSession();
 
+
     const initialIsEditing = () => {
         if (typeof window !== 'undefined') {
           const initialIsEditingValue = localStorage.getItem('isEditing') === 'true';
@@ -30,7 +31,7 @@ export default function DashLayout() {
     return (
 
         <div>
-            <Navbar isEditing={isEditing} setIsEditing={setIsEditing} session={session} />
+            <Navbar isEditing={isEditing} setIsEditing={setIsEditing} session={session} status={status} />
             <Dashboard isEditing={isEditing} setIsEditing={setIsEditing} session={session} status={status} update={update} />
         </div>
     )

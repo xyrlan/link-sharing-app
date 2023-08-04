@@ -10,6 +10,7 @@ interface NavbarProps {
     isEditing: boolean;
     setIsEditing: (value: boolean) => void;
     session: any;
+    status: any;
 
 }
 
@@ -24,7 +25,7 @@ function classNames(...classes: any) {
     return classes.filter(Boolean).join(' ')
 }
 
-export default function Navbar({ isEditing, setIsEditing, session }: NavbarProps) {
+export default function Navbar({ isEditing, setIsEditing, session, status }: NavbarProps) {
 
 
     const handleSave = () => {

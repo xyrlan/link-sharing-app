@@ -1,14 +1,27 @@
 
-import React from 'react'
+
+import React, { useEffect, useState } from 'react';
 import { User } from '@prisma/client'
 import ProfileCard from '@/app/components/ProfileCard';
 import ProfileNav from '@/app/components/ProfileNav';
 
 
-
 const UserProfilePage = async ({ params }: any) => {
-  console.log(params)
-  const user = await fetch(`http://localhost:3000/api/users/${params.userId}`).then((res) => res.json());
+
+  async function getData({ params }: any) {
+    const res = await fetch(`http://localhost:3000/api/users/${params.userId}`, { cache: 'no-store'})
+    // The return value is *not* serialized
+    // You can return Date, Map, Set, etc.
+
+    if (!res.ok) {
+      // This will activate the closest `error.js` Error Boundary
+      throw new Error('Failed to fetch data')
+    }
+
+    return res.json()
+  }
+  // const user = await fetch(`http://localhost:3000/api/users/${params.userId}`).then((res) => res.json());
+  const user = await getData({params})
   return (
 
     <div className=' h-screen w-screen'>
@@ -27,6 +40,6 @@ export async function getStaticPaths() {
     params: { userId: user.id },
   }));
 
-  return { paths, fallback: true };
+  return { paths, fallback: false };
 }
 
