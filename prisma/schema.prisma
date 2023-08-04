@@ -41,9 +41,17 @@ model User {
   emailVerified  DateTime?
   hashedPassword String?
   image          String?
-  links          Json?
+  links          Link[]
   accounts       Account[]
   sessions       Session[]
+}
+
+model Link {
+  id       String @id @default(uuid())
+  platform String
+  url      String
+  userId   String
+  user     User   @relation(fields: [userId], references: [id])
 }
 
 model VerificationToken {

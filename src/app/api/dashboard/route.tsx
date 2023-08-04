@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
@@ -15,13 +15,30 @@ export async function POST(request: any) {
   try {
 
     const updatedUser = await prisma.user.update({
-      where: { email: id },
+      where: { id: id },
       data: {
-        links: links,
         name: name,
         image: image,
       },
     });
+
+    const updatedUserLink = await prisma.link.deleteMany({
+      where: {
+        userId: id 
+      },
+    });
+
+    for (let i = 0; i < links.length; i++) {
+      const link = links[i];
+      await prisma.link.create({
+        data: {
+          platform: link.platform,
+          url: link.url,
+          userId: id
+        }
+      })
+    }
+    
 
     return new NextResponse(JSON.stringify(updatedUser), { status: 200 });
   } catch (error) {

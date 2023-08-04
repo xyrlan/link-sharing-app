@@ -9,30 +9,13 @@ import { useState, useEffect } from 'react'
 
 export default function DashLayout() {
 
-    const { data: session, status, update } = useSession();
-
-
-    const initialIsEditing = () => {
-        if (typeof window !== 'undefined') {
-          const initialIsEditingValue = localStorage.getItem('isEditing') === 'true';
-          return initialIsEditingValue;
-        }
-        return false; // Valor padrão caso não esteja no lado do cliente
-      };
-
-    const [isEditing, setIsEditing] = useState<boolean>(initialIsEditing);
-
-    // Armazena o valor de isEditing no localStorage sempre que ele for alterado
-    useEffect(() => {
-        localStorage.setItem('isEditing', String(isEditing));
-    }, []);
-
+    const { data: session, status } = useSession();
 
     return (
 
         <div>
-            <Navbar isEditing={isEditing} setIsEditing={setIsEditing} session={session} status={status} />
-            <Dashboard isEditing={isEditing} setIsEditing={setIsEditing} session={session} status={status} update={update} />
+            <Navbar  session={session} status={status} />
+            <Dashboard session={session} status={status} />
         </div>
     )
 }

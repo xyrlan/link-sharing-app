@@ -3,7 +3,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 
-import { useSession } from "next-auth/react"
 import { useForm, useFieldArray } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -17,17 +16,12 @@ import ProfileDetails from './components/ProfileDetails';
 
 
 
-
-
 interface DashboardProps {
-  isEditing: boolean;
-  setIsEditing: (value: boolean) => void;
-  session: any;
-  status: any;
-  update: any;
+  session: any ;
+  status: string ;
 }
 
-export default function Dashboard({ isEditing, setIsEditing, session, status, update }: DashboardProps) {
+export default function Dashboard({ session, status }: DashboardProps) {
 
   const Links = [
     {
@@ -73,6 +67,7 @@ export default function Dashboard({ isEditing, setIsEditing, session, status, up
   const router = useRouter();
   const [selectedPlatforms, setSelectedPlatforms] = useState<string[]>([]);
   const [sessionLinks, setSessionLinks] = useState<any[]>([]);
+
   const [isLoading, setIsLoading] = useState(false);
 
   const [firstName, setFirstName] = useState<string>('');
@@ -149,11 +144,6 @@ export default function Dashboard({ isEditing, setIsEditing, session, status, up
     try {
       setIsLoading(true);
 
-      // const formattedData = data.links.reduce((acc: any, link: any) => {
-      //   acc[link.platform] = { url: link.url };
-      //   return acc;
-      // }, {});
-
       const formattedData = data.links.map((link: any) => ({
         platform: link.platform,
         url: link.url,
@@ -161,7 +151,7 @@ export default function Dashboard({ isEditing, setIsEditing, session, status, up
 
       await axios.post('/api/dashboard', {
         data: {
-          id: session?.user?.email,
+          id: session?.user?.id,
           links: formattedData,
         },
       });
@@ -200,6 +190,7 @@ export default function Dashboard({ isEditing, setIsEditing, session, status, up
         setSelectedPlatforms(initialSelectedPlatforms);
       }
     }
+    
   }, [session?.user?.links, fields.length, append, selectedPlatforms]);
 
   function handlePlatformChange(index: number, platform: string) {
@@ -220,11 +211,11 @@ export default function Dashboard({ isEditing, setIsEditing, session, status, up
         ) : (
           <>
             <PreviewCard selectedLinks={selectedLinks} session={session} firstName={firstName} lastName={lastName} previewImage={previewImage} image={image} />
-            {isEditing ? (
-              <ProfileDetails session={session} update={update} firstName={firstName} lastName={lastName} setFirstName={setFirstName} setLastName={setLastName} setPreviewImage={setPreviewImage} previewImage={previewImage} image={image} setImage={setImage} />
-            ) : (
+           
+              <ProfileDetails session={session} firstName={firstName} lastName={lastName} setFirstName={setFirstName} setLastName={setLastName} setPreviewImage={setPreviewImage} previewImage={previewImage} image={image} setImage={setImage} />
+          
               <LinksMenu addNewLink={addNewLink} errors={errors} fields={fields} selectedPlatforms={selectedPlatforms} handlePlatformChange={handlePlatformChange} handleSubmit={handleSubmit} loading={isLoading} onSubmit={onSubmit} Links={Links} register={register} removeLink={removeLink} />
-            )}
+         
           </>
         )}
       </main>

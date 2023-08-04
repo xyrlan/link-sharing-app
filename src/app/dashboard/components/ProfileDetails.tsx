@@ -4,12 +4,12 @@ import "@uploadthing/react/styles.css";
 import React, { ChangeEvent, useState } from 'react';
 import { toast } from 'react-toastify';
 import axios from 'axios';
-import Dropzone, { FileWithPath } from 'react-dropzone';
 import { UploadButton, UploadDropzone } from "@/utils/uploadthings";
 import Image from "next/image";
+import { Session } from "next-auth";
 
 interface ProfileDetailsProps {
-    session: any;
+    session: Session | null;
     firstName: string;
     lastName: string;
     setFirstName: (name: string) => void;
@@ -18,7 +18,6 @@ interface ProfileDetailsProps {
     previewImage: string | null;
     image: any;
     setImage: any;
-    update: any;
 
 
 }
@@ -33,7 +32,6 @@ export default function ProfileDetails({
     previewImage,
     image,
     setImage,
-    update,
 
 }: ProfileDetailsProps) {
 
@@ -104,7 +102,6 @@ export default function ProfileDetails({
             // Handle error message or other error handling logic
         }
         setLoading(false);
-        update();
         
     };
 
