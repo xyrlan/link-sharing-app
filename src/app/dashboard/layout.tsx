@@ -24,9 +24,11 @@ export default function DashLayout() {
 
     // Armazena o valor de isEditing no localStorage sempre que ele for alterado
     useEffect(() => {
-        localStorage.setItem('isEditing', String(isEditing));
-    }, []);
-
+        if (typeof window !== 'undefined') {
+          const checkout = localStorage.getItem('checkout');
+          localStorage.setItem('isEditing', String(isEditing));
+        }
+      }, [isEditing]);
 
     return (
 
