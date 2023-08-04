@@ -16,14 +16,9 @@ import { Session } from 'next-auth';
 
 
 
-interface DashboardProps {
-  isEditing: boolean;
-  setIsEditing: any;
-  session: Session | null 
-  status: string;
-}
 
-export default function Dashboard({ isEditing, setIsEditing, session, status }: DashboardProps) {
+
+export default function Dashboard({ isEditing, setIsEditing, session, status }: any) {
 
   const Links = [
     {
