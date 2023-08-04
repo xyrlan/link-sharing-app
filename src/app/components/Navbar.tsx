@@ -30,12 +30,11 @@ export default function Navbar({ isEditing, setIsEditing, session, status }: Nav
 
     const handleSave = () => {
         setIsEditing(true)
-        localStorage.setItem('isEditing', String(true));
+
     }
 
     const handleCancel = () => {
         setIsEditing(false)
-        localStorage.setItem('isEditing', String(false));
 
     };
 
@@ -89,7 +88,7 @@ export default function Navbar({ isEditing, setIsEditing, session, status }: Nav
                                                     <div
                                                         onClick={item.function}
                                                         key={item.name}
-                                                        className={classNames(localStorage.getItem('isEditing') === 'true' && item.name === 'Profile Details' ? 'bg-indigo-100 text-indigo-500' : '', localStorage.getItem('isEditing') === 'false' && item.name !== 'Profile Details' ? 'bg-indigo-100' : '', 'group flex items-center cursor-pointer px-4 gap-2 py-2 rounded-lg hover:text-indigo-500 text-sm font-medium hover:fill-indigo-500')}>
+                                                        className={classNames(isEditing && item.name === 'Profile Details' ? 'bg-indigo-100 text-indigo-500' : '', isEditing === false && item.name !== 'Profile Details' ? 'bg-indigo-100' : '', 'group flex items-center cursor-pointer px-4 gap-2 py-2 rounded-lg hover:text-indigo-500 text-sm font-medium hover:fill-indigo-500')}>
                                                         {item.icon}
                                                         <button
 
