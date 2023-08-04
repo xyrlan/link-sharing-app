@@ -12,8 +12,6 @@ import axios from 'axios';
 import PreviewCard from './components/PreviewCard';
 import LinksMenu from './components/LinksMenu';
 import ProfileDetails from './components/ProfileDetails';
-import { Session } from 'next-auth';
-
 
 
 
