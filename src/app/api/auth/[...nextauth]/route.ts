@@ -129,7 +129,9 @@ const handler = NextAuth({
       session.user.image = account?.image;
       session.user.name = account?.name;
       session.user.links = account?.links;
+      console.log(session)
       return session; 
+   
     },
   },
   secret: `${process.env.NEXTAUTH_SECRET}`,

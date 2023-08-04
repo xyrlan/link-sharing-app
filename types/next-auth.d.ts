@@ -6,8 +6,8 @@ import NextAuth from 'next-auth';
 // Faça a extensão do módulo "next-auth" para incluir a propriedade "links" no objeto "user" da sessão
 declare module 'next-auth' {
   interface Session {
-    user?: {
-      links?: Array<{ platform: string; url: string }> | null ;
+    user: {
+      links: Array<{ platform: string; url: string }>  ;
     } & DefaultSession['user'] ;
   }
 }

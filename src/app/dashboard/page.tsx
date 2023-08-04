@@ -12,16 +12,18 @@ import axios from 'axios';
 import PreviewCard from './components/PreviewCard';
 import LinksMenu from './components/LinksMenu';
 import ProfileDetails from './components/ProfileDetails';
-
+import { Session } from 'next-auth';
 
 
 
 interface DashboardProps {
-  session: any ;
-  status: string ;
+  isEditing: boolean;
+  setIsEditing: any;
+  session: Session | null 
+  status: string;
 }
 
-export default function Dashboard({ session, status }: DashboardProps) {
+export default function Dashboard({ isEditing, setIsEditing, session, status }: DashboardProps) {
 
   const Links = [
     {
@@ -211,11 +213,11 @@ export default function Dashboard({ session, status }: DashboardProps) {
         ) : (
           <>
             <PreviewCard selectedLinks={selectedLinks} session={session} firstName={firstName} lastName={lastName} previewImage={previewImage} image={image} />
-           
+            {isEditing ? (
               <ProfileDetails session={session} firstName={firstName} lastName={lastName} setFirstName={setFirstName} setLastName={setLastName} setPreviewImage={setPreviewImage} previewImage={previewImage} image={image} setImage={setImage} />
-          
+            ) : (
               <LinksMenu addNewLink={addNewLink} errors={errors} fields={fields} selectedPlatforms={selectedPlatforms} handlePlatformChange={handlePlatformChange} handleSubmit={handleSubmit} loading={isLoading} onSubmit={onSubmit} Links={Links} register={register} removeLink={removeLink} />
-         
+            )}
           </>
         )}
       </main>
