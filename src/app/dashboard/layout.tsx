@@ -16,7 +16,6 @@ export default function DashLayout() {
 
     const [isEditing, setIsEditing] = useState<boolean>(false);
 
-    // Armazena o valor de isEditing no localStorage sempre que ele for alterado
 
 
     return (
