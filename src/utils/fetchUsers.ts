@@ -1,12 +1,23 @@
 import axios from 'axios';
-import { User } from '@prisma/client';
+
 import { GetStaticPaths } from 'next';
+
+type User = {
+  id: string;
+  name: string | null;
+  email: string | null;
+  emailVerified: Date | null;
+  hashedPassword: string | null;
+  image: string | null;
+  links: [] | null;
+}
 
 // Função para buscar os usuários da API
 export async function fetchUsers(): Promise<User[]> {
   try {
     const response = await axios.get('https://link-sharing-app-ten.vercel.app/api/users'); // Substitua pela URL correta da sua API
-    return response.data; // Assumindo que a resposta da API é um array de objetos de usuário
+    return response.data;
+    // Assumindo que a resposta da API é um array de objetos de usuário
   } catch (error) {
     console.error('Erro ao buscar usuários:', error);
     return []; // Retornar um array vazio em caso de erro

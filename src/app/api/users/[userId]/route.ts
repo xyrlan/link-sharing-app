@@ -11,6 +11,9 @@ export async function GET(req: any) {
       where: {
         id: userId,
       },
+      include: {
+        links: true,
+      },
     });
 
     if (!user) {

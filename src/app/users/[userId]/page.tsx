@@ -7,19 +7,6 @@ import ProfileNav from '@/app/components/ProfileNav';
 
 
 
-
-// export const getStaticPaths: any = async () => {
-//   // Generate paths for all user IDs
-//   const users = await fetch('http://localhost:3000/api/users').then((res) => res.json());
-//   const paths = users.map((user: User) => ({
-//     params: { userId: user.id },
-//   }));
-
-//   return { paths, fallback: false };
-// }
-
-
-
 const UserProfilePage = async ({ params }: any) => {
 
   async function getData({ params }: any) {
@@ -34,8 +21,9 @@ const UserProfilePage = async ({ params }: any) => {
 
     return res.json()
   }
-  // const user = await fetch(`http://localhost:3000/api/users/${params.userId}`).then((res) => res.json());
+
   const user = await getData({ params })
+  console.log(user)
   return (
 
     <div className=' h-screen w-screen'>

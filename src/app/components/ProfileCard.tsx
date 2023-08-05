@@ -26,7 +26,6 @@ type Props = {
 const ProfileCard: React.FC<Props> = ({ user }) => {
 
 
-
      const Links = [
         {
           platform: 'GitHub',
