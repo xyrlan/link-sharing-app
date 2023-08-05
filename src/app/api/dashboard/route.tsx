@@ -7,7 +7,7 @@ import { prisma } from "@/lib/prisma";
 export async function POST(request: any) {
   const body = await request.json();
   const { id, links, name, image } = body.data;
-
+  
   if (!id) {
     return new NextResponse("Missing id or links data", { status: 400 });
   }
