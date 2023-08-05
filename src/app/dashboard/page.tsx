@@ -74,6 +74,8 @@ export default function Dashboard({ isEditing, setIsEditing, session, status }: 
     fileKey: string
   }[]>([])
 
+console.log(image)
+
   const initialSelectedPlatformsRef = useRef<string[]>([]);
 
 
@@ -148,6 +150,8 @@ export default function Dashboard({ isEditing, setIsEditing, session, status }: 
         data: {
           id: session?.user?.id,
           links: formattedData,
+          name: firstName + ' ' + lastName,
+          image: image.map((img) => img.fileUrl),
         },
       });
 

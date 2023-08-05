@@ -45,7 +45,6 @@ export default function ProfileDetails({
         if (res) {
             setImage(res);
             const json = JSON.stringify(res);
-            console.log(json);
         }
 
         toast.success("Upload Completed");
