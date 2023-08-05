@@ -68,8 +68,6 @@ const ProfileCard: React.FC<Props> = ({ user }) => {
       ]
 
     const [selectedLinks, setSelectedLinks] = useState<Link[]>([]);
-    console.log(selectedLinks)
-    console.log(user.links)
     useEffect(() => {
         if (user.links) {
             const userLinks = user.links;
@@ -97,7 +95,7 @@ const ProfileCard: React.FC<Props> = ({ user }) => {
                 className='relative mt-28 min-w-[308px] max-h-[632px] rounded-xl shadow-2xl bg-cover bg-center bg-no-repeat'
             >
                 <img
-                    className="h-6 mx-auto"
+                    className="h-10 mx-auto"
                     src="/images/logo-devlinks-large.svg"
                     alt="Your Company"
                 />

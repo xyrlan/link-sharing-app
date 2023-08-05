@@ -23,7 +23,7 @@ const UserProfilePage = async ({ params }: any) => {
   }
 
   const user = await getData({ params })
-  console.log(user)
+
   return (
 
     <div className=' h-screen w-screen'>

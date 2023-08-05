@@ -74,7 +74,6 @@ export default function Dashboard({ isEditing, setIsEditing, session, status }: 
     fileKey: string
   }[]>([])
 
-console.log(image)
 
   const initialSelectedPlatformsRef = useRef<string[]>([]);
 

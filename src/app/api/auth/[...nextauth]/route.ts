@@ -8,70 +8,6 @@ import { prisma } from "@/lib/prisma";
 
 
 
-// export const authOptions: AuthOptions = {
-//   adapter: PrismaAdapter(prisma) as Adapter,
-//   providers: [
-//     CredentialsProvider({
-//       name: "credentials",
-//       credentials: {
-//         email: { label: "Email", type: "email" },
-//         password: { label: "Password", type: "password" },
-//       },
-//       async authorize(credentials) {
-//         if (!credentials?.email || !credentials?.password) {
-//           return null;
-//         }
-
-//         const user = await prisma.user.findUnique({
-//           where: {
-//             email: credentials.email
-//           }
-//         });
-//         console.log(user)
-
-//         if (!user) {
-//           return null;
-//         }
-
-//         const passwordMatch = await bcrypt.compare(credentials.password, user.hashedPassword ?? '');
-//         console.log(passwordMatch)
-
-//         if (!passwordMatch) {
-//           return null;
-//         }
-
-//         return user;
-//       }
-//     }),
-//     GoogleProvider({
-//       clientId: process.env.GOOGLE_CLIENT_ID!,
-//       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-//     }),
-//   ],
-//   session: {
-//     strategy: "jwt"
-//   },
-//   callbacks: {
-//     async session({ session }) {
-//       const account = await prisma.user.findUnique({
-//         where: {
-//           email: session.user.email
-//         },
-//         include: {
-//           links: true,
-//         }
-
-//       });
-//       session.user.id = account?.id;
-//       session.user.image = account?.image;
-//       session.user.name = account?.name;
-//       session.user.links = account?.links;
-//       return session; 
-//     },
-//   },
-//   secret: `${process.env.NEXTAUTH_SECRET}`,
-// };
-
 const handler = NextAuth({
   adapter: PrismaAdapter(prisma) as Adapter,
   providers: [
@@ -91,14 +27,14 @@ const handler = NextAuth({
             email: credentials.email
           }
         });
-        console.log(user)
+
 
         if (!user) {
           return null;
         }
 
         const passwordMatch = await bcrypt.compare(credentials.password, user.hashedPassword ?? '');
-        console.log(passwordMatch)
+
 
         if (!passwordMatch) {
           return null;
@@ -130,7 +66,7 @@ const handler = NextAuth({
       session.user.image = account?.image;
       session.user.name = account?.name;
       session.user.links = account?.links;
-      console.log(session)
+
       return session; 
    
     },

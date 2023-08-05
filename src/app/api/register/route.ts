@@ -10,7 +10,7 @@ export async function POST(request: any) {
 
     const body = await request.json();
     const { email, password, confirmPassword } = body.data;
-    console.log(body.data);
+
     if(!email || !password) {
         return new NextResponse("Missing email or password", { status: 400 })
     }

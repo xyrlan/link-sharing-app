@@ -11,7 +11,6 @@ const ProfileNav = () => {
     const router = useRouter();
 
     const { data: session, status } = useSession();
-    console.log(status)
 
     const goBack = () => {
         router.push('/dashboard')
