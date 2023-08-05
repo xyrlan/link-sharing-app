@@ -23,7 +23,7 @@ import ProfileNav from '@/app/components/ProfileNav';
 const UserProfilePage = async ({ params }: any) => {
 
   async function getData({ params }: any) {
-    const res = await fetch(`https://link-sharing-app-ten.vercel.app/${params.userId}`, { cache: 'no-store' })
+    const res = await fetch(`https://link-sharing-app-ten.vercel.app/api/users/${params.userId}`, { cache: 'no-store' })
     // The return value is *not* serialized
     // You can return Date, Map, Set, etc.
 
