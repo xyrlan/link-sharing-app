@@ -88,8 +88,8 @@ export default function ProfileDetails({
             await axios.post('/api/dashboard', {
                 data: {
                     name: firstName === '' ? session?.user?.name : firstName + ' ' + lastName,
-                    id: session?.user?.email,
-                    image: image[0]?.fileUrl,
+                    id: session?.user?.id,
+                    image: `${image[0]?.fileUrl}`,
                 },
             });
 

@@ -7,7 +7,7 @@ import { prisma } from "@/lib/prisma";
 export async function POST(request: any) {
   const body = await request.json();
   const { id, links, name, image } = body.data;
-  
+
   if (!id) {
     return new NextResponse("Missing id or links data", { status: 400 });
   }
@@ -21,13 +21,13 @@ export async function POST(request: any) {
         image: image,
       },
     });
-
-    const updatedUserLink = await prisma.link.deleteMany({
-      where: {
-        userId: id 
-      },
-    });
-
+    if (!links) {
+      const updatedUserLink = await prisma.link.deleteMany({
+        where: {
+          userId: id
+        },
+      });
+    }
     for (let i = 0; i < links.length; i++) {
       const link = links[i];
       await prisma.link.create({
@@ -38,7 +38,7 @@ export async function POST(request: any) {
         }
       })
     }
-    
+
 
     return new NextResponse(JSON.stringify(updatedUser), { status: 200 });
   } catch (error) {

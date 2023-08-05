@@ -150,8 +150,6 @@ console.log(image)
         data: {
           id: session?.user?.id,
           links: formattedData,
-          name: firstName + ' ' + lastName,
-          image: image.map((img) => img.fileUrl),
         },
       });
 
