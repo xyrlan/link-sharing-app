@@ -137,9 +137,9 @@ export default function ProfileDetails({
                                 </div>
 
                             ) : (
-                                <div className="w-40 h-40 rounded-lg bg-gray-200 hover:bg-indigo-200 cursor-pointer group flex flex-col items-center justify-center">
-                                    <img className="group-hover:scale-105" src="/images/icon-upload-image.svg" alt="icon" />
-                                    <p className="group-hover:scale-105 text-sm text-indigo-600 font-semibold">+ Upload Image</p>
+                                <div className="w-40 h-40 rounded-lg bg-gray-200 cursor-pointer group flex flex-col items-center justify-center">
+                                    <img className="" src="/images/icon-upload-image.svg" alt="icon" />
+                                    <p className=" text-sm text-indigo-600 font-semibold">+ Upload Image</p>
                                 </div>
                             )}
 
