@@ -56,7 +56,7 @@ export default function Navbar({ isEditing, setIsEditing, session, status }: Nav
 
     const handlePreviewClick = () => {
         if (session?.user?.id) {
-            router.push(`http://localhost:3000/users/${session?.user?.id}`);
+            router.push(`/users/${session?.user?.id}`);
         }
     };
 
