@@ -5,6 +5,7 @@ import type { Metadata } from 'next'
 import { NextAuthProvider } from '@/providers/auth'
 import { Inter } from 'next/font/google'
 import { Instrument_Sans } from 'next/font/google'
+import Head from 'next/head'
 
 const inter = Instrument_Sans({ subsets: ['latin'] })
 
@@ -20,6 +21,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <Head>
+        <link rel='icon' href='/images/logo-devlinks-small.svg' />
+      </Head>
       <body className={inter.className}>
         <NextAuthProvider>
           <ToastProvider>
