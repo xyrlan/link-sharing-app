@@ -108,17 +108,23 @@ export default function Navbar({ isEditing, setIsEditing, session, status }: Nav
                                             <button
                                                 onClick={handlePreviewClick}
                                                 type="button"
-                                                className="hidden sm:block text-sm rounded-lg border border-indigo-600 bg-white hover:bg-indigo-100 py-1 px-2 sm:px-4 text-indigo-600 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
-                                            >
+                                                disabled={!session?.user?.image}
+                                                className={`sm:hidden rounded-lg border ${session?.user?.image ? 'border-indigo-600 bg-white hover:bg-indigo-100 py-1 px-2 sm:px-4 text-indigo-600' : 'border-gray-300 bg-gray-100 py-1 px-2 sm:px-4 text-gray-400 cursor-not-allowed'
+                                                    }`}>
                                                 Preview
                                             </button>
-                                            <div className='sm:hidden rounded-lg border border-indigo-600 bg-white hover:bg-indigo-100 py-1 px-2 sm:px-4 text-indigo-600'>
+                                            <button
+                                                onClick={handlePreviewClick}
+                                                type='button'
+                                                disabled={!session?.user?.image}
+                                                className={`sm:hidden rounded-lg border ${session?.user?.image ? 'border-indigo-600 bg-white hover:bg-indigo-100 py-1 px-2 sm:px-4 text-indigo-600' : 'border-gray-300 bg-gray-100 py-1 px-2 sm:px-4 text-gray-400 cursor-not-allowed'
+                                                    }`}>
                                                 <img
                                                     className="sm:hidden"
                                                     src="/images/icon-preview-header.svg"
                                                     alt="Your Company"
                                                 />
-                                            </div>
+                                            </button>
 
                                             {/* Profile dropdown */}
                                             <Menu as="div" className="relative ml-3">
