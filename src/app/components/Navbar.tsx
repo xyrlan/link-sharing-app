@@ -109,7 +109,7 @@ export default function Navbar({ isEditing, setIsEditing, session, status }: Nav
                                                 onClick={handlePreviewClick}
                                                 type="button"
                                                 disabled={!session?.user?.image}
-                                                className={`sm:hidden rounded-lg border ${session?.user?.image ? 'border-indigo-600 bg-white hover:bg-indigo-100 py-1 px-2 sm:px-4 text-indigo-600' : 'border-gray-300 bg-gray-100 py-1 px-2 sm:px-4 text-gray-400 cursor-not-allowed'
+                                                className={` hidden sm:block rounded-lg border ${session?.user?.image ? 'border-indigo-600 bg-white hover:bg-indigo-100 py-1 px-2 sm:px-4 text-indigo-600' : 'border-gray-300 bg-gray-100 py-1 px-2 sm:px-4 text-gray-400 cursor-not-allowed'
                                                     }`}>
                                                 Preview
                                             </button>
