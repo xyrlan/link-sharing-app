@@ -89,7 +89,7 @@ export default function ProfileDetails({
                 data: {
                     name: firstName === '' ? session?.user?.name : firstName + ' ' + lastName,
                     id: session?.user?.id,
-                    image: `${image[0]?.fileUrl}`,
+                    image: `${image[0]?.fileUrl}` || session?.user?.image,
                 },
             });
 
